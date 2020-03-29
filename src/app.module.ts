@@ -3,8 +3,14 @@ import { PatientsModule } from './patients/patients.module';
 import { PatientsController } from './patients/patients.controller';
 import { PatientsService } from './patients/patients.service';
 
+import "reflect-metadata";
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { typeOrmConfig } from './config/typeorm.config';
+
 @Module({
-  imports: [PatientsModule],
+  imports: [
+    TypeOrmModule.forRoot(typeOrmConfig),
+    PatientsModule],
   controllers: [PatientsController],
   providers: [PatientsService],
 })

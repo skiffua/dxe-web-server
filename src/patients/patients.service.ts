@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Patient } from './patient.model';
 import { CreatePatientDto } from './dto/create-patient.dto';
 
@@ -11,11 +11,26 @@ export class PatientsService {
     return this.patients;
   }
 
-  getPatientById(patientId: number): Patient | null {
-    return null
-    // return this.patients.find(patient =>
-    //   patient.patientId === patientId
-    // )
+  getPatientById(id: string): Patient | null {
+    console.log('patientId***********', id, typeof(id));
+    const result = this.patients.find(patient => patient.patientId == parseInt(id));
+    console.log(this.patients, result)
+    if (!result) {
+      throw new NotFoundException('not found this patient');
+    }
+    return result;
+  };
+
+  deletePatientById(id: string): Patient | null {
+    const found: Patient = this.getPatientById(id);
+    this.patients = this.patients.filter(patient => patient.patientId !== found.patientId);
+    return found;
+  };
+
+  updatePatientName(id: string, name: string): Patient | null {
+    const found: Patient = this.getPatientById(id);
+    found.name = name;
+    return found;
   };
 
   createNewPatient({
@@ -33,7 +48,6 @@ export class PatientsService {
                      visiting=10,
                      operations=5,
                    }: CreatePatientDto): Patient {
-    console.log(patientId);
     const patient: Patient = {
       patientId, email, phone, name, address, address2, city, state, zip, garantor, procedures, visiting, operations,
     };

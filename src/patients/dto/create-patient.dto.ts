@@ -1,3 +1,9 @@
+import { IsNotEmpty } from 'class-validator';
+
+export class PatientNameTdo {
+  name: string;
+}
+
 export class Procedure {
   procedureCode: number | null;
   title: string;
@@ -7,6 +13,7 @@ export class Procedure {
 }
 
 export class CreatePatientDto {
+  @IsNotEmpty()
   patientId: number | null;
   email: string;
   phone: string;
