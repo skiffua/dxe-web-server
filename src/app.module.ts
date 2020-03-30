@@ -6,11 +6,13 @@ import { PatientsService } from './patients/patients.service';
 import "reflect-metadata";
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/typeorm.config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeOrmConfig),
-    PatientsModule],
+    PatientsModule,
+    AuthModule],
   // controllers: [PatientsController],
   // providers: [PatientsService],
 })
