@@ -1,27 +1,37 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post, Query,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { PatientsService } from './patients.service';
-import { Patient } from './patient.model';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { PatientStatusValidationPipes } from './pipes/patient-status-validation.pipes';
+import { Patient } from './patient.entity';
+import { GetPatientFilterDto } from './dto/filter-patient.dto';
 
 @Controller('patients')
 export class PatientsController {
   constructor(private patientsService: PatientsService) {}
 
   @Get()
-  getAllPatients(): Patient[] {
-    return this.patientsService.getAllPatients();
+  getPatients(@Query(ValidationPipe) filterDto: GetPatientFilterDto): Promise<Patient[]> {
+    return this.patientsService.getPatients(filterDto);
   }
 
   @Get('/:id')
-  getPatientById(@Param('id') id: string): Patient | null {
-    console.log('getId')
+  getPatientById(@Param('id', ParseIntPipe) id: number): Promise<Patient> {
     return this.patientsService.getPatientById(id)
   }
 
   @Delete('/:id')
-  deletePatientById(@Param('id') id: string): Patient | null {
-    console.log('getId')
+  deletePatientById(@Param('id', ParseIntPipe) id: number): Promise<Patient> {
     return this.patientsService.deletePatientById(id)
   }
 
@@ -32,11 +42,11 @@ export class PatientsController {
     return this.patientsService.createNewPatient(createPatientTdo);
   }
 
-  @Patch('/:id/patient')
+  @Patch('/:id')
   updatePatientInfo(
-    @Param('id') id: string,
-    @Body('name', PatientStatusValidationPipes) name: string,
-  ): Patient {
-    return this.patientsService.updatePatientName(id, name);
+    @Param('id', ParseIntPipe) id: number,
+    @Body() patientInfoDto: CreatePatientDto,
+  ): Promise<Patient> {
+    return this.patientsService.updatePatientInfo(patientInfoDto);
   }
 }

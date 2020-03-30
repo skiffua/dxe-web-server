@@ -1,40 +1,41 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { CreatePatientDto } from './dto/create-patient.dto';
 
 @Entity()
 export class Patient extends BaseEntity {
   @PrimaryGeneratedColumn()
-  patientId: number | null;
+  patientId: number;
 
   @Column()
-  email: string;
+  email: string = '';
 
   @Column()
-  phone: string;
+  phone: string = '';
 
   @Column()
-  name: string;
+  name: string = '';
 
   @Column()
-  address: string;
+  address: string = '';
 
   @Column()
-  address2?: string;
+  address2?: string = '';
 
   @Column()
-  city: string;
+  city: string = '';
 
   @Column()
-  state?: string;
+  state?: string = '';
 
   @Column()
-  zip: string;
+  zip: string = '';
 
   @Column()
-  garantor: boolean;
+  garantor: boolean = false;
 
   @Column()
-  visiting: number | null;
+  visiting: number = 0;
 
   @Column()
-  operations: number | null;
+  operations: number = 0;
 }

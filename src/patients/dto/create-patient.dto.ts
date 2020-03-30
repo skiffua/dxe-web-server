@@ -1,9 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
 
-export class PatientNameTdo {
-  name: string;
-}
-
 export class Procedure {
   procedureCode: number | null;
   title: string;

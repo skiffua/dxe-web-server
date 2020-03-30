@@ -5,9 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PatientRepository } from './patient.repository';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([PatientRepository])
-  ],
+  imports: [TypeOrmModule.forFeature([PatientRepository])],
   controllers: [PatientsController],
   providers: [PatientsService],
 })

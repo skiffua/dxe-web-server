@@ -11,7 +11,7 @@ import { typeOrmConfig } from './config/typeorm.config';
   imports: [
     TypeOrmModule.forRoot(typeOrmConfig),
     PatientsModule],
-  controllers: [PatientsController],
-  providers: [PatientsService],
+  // controllers: [PatientsController],
+  // providers: [PatientsService],
 })
 export class AppModule {}
