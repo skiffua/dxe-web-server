@@ -6,7 +6,7 @@ import {
   Param,
   ParseIntPipe,
   Patch,
-  Post, Query,
+  Post, Query, UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -15,8 +15,12 @@ import { CreatePatientDto } from './dto/create-patient.dto';
 import { PatientStatusValidationPipes } from './pipes/patient-status-validation.pipes';
 import { Patient } from './patient.entity';
 import { GetPatientFilterDto } from './dto/filter-patient.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from '../auth/get-user.decorator';
+import { User } from '../auth/user.entity';
 
 @Controller('patients')
+@UseGuards(AuthGuard())
 export class PatientsController {
   constructor(private patientsService: PatientsService) {}
 
@@ -37,9 +41,11 @@ export class PatientsController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  createPatient(@Body() createPatientTdo: CreatePatientDto) {
-    console.log('body', createPatientTdo);
-    return this.patientsService.createNewPatient(createPatientTdo);
+  createPatient(
+    @Body() createPatientTdo: CreatePatientDto,
+    @GetUser() user: User,
+    ) {
+    return this.patientsService.createNewPatient(createPatientTdo, user);
   }
 
   @Patch('/:id')

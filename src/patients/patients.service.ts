@@ -4,6 +4,7 @@ import { PatientRepository } from './patient.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Patient } from './patient.entity';
 import { GetPatientFilterDto } from './dto/filter-patient.dto';
+import { User } from '../auth/user.entity';
 
 
 @Injectable()
@@ -53,8 +54,11 @@ export class PatientsService {
   //   return found;
   // };
   //
- async  createNewPatient(createPatientDto: CreatePatientDto) {
-    return this.patientRepository.createPatient(createPatientDto);
+ async  createNewPatient(
+   createPatientDto: CreatePatientDto,
+   user: User,
+   ) {
+    return this.patientRepository.createPatient(createPatientDto, user);
   }
   // createNewPatient({
   //                    patientId=1,

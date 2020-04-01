@@ -1,5 +1,6 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CreatePatientDto } from './dto/create-patient.dto';
+import { User } from '../auth/user.entity';
 
 @Entity()
 export class Patient extends BaseEntity {
@@ -38,4 +39,7 @@ export class Patient extends BaseEntity {
 
   @Column()
   operations: number = 0;
+
+  @ManyToOne(type => User, user => user.patients, { eager: false })
+  user: User;
 }
